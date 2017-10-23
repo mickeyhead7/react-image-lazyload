@@ -1,0 +1,20 @@
+{
+  "name": "image-component",
+  "version": "1.0.0",
+  "description": "Responsive imgage component",
+  "main": "index.js",
+  "repository": "git@github.com:mickeyhead7/image-component.git",
+  "author": "<mickeyhead7@gmail.com>",
+  "license": "GNU General Public License",
+  "dependencies": {
+    "next": "^4.1.2",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-imgix": "^6.0.1"
+  },
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  }
+}
