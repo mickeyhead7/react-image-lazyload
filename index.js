@@ -28,7 +28,7 @@ export default class extends Component {
 
         return (
             <div className={classes}>
-                <Picture {...this.props}>
+                <Picture {...this.props} aggressiveLoad={true}>
                     {this.state.mounted ? (
                         React.Children.map(this.props.children, child => cloneElement(child, {
                             onMounted: this.onLoad,
