@@ -1,3 +1,4 @@
+import { css } from 'glamor';
 import classNames from 'classnames';
 import Picture from './src/Picture';
 import React, { cloneElement, Component } from 'react';
@@ -21,31 +22,36 @@ export default class extends Component {
     };
 
     render () {
+        const containerStyles = css({
+            background: this.props.backgroundColor || '#cccccc',
+            display: 'inline-block',
+            overflow: 'hidden',
+        });
+        const imgStyles = css({
+            display: 'block',
+            filter: 'blur(50px)',
+            '& img': {
+                display: 'block',
+            },
+        });
+        const loadedStyles = css({
+            filter: 'blur(0)',
+            transition: `filter ${this.props.transitionSpeed} ease-in-out`,
+        });
         const classes = classNames({
-            image: true,
-            loaded: this.state.mounted,
+            [imgStyles]: true,
+            [loadedStyles]: this.state.loaded,
         });
 
         return (
-            <div className={classes}>
-                <Picture {...this.props} aggressiveLoad={true}>
+            <div className={containerStyles}>
+                <Picture {...this.props} aggressiveLoad={true} className={classes}>
                     {this.state.mounted ? (
                         React.Children.map(this.props.children, child => cloneElement(child, {
                             onMounted: this.onLoad,
                         }))
                     ) : null}
                 </Picture>
-                <style jsx>{`
-                    .image {
-                        filter: blur(25px);
-                        margin: -25px;
-                        overflow: hidden;
-                    }
-                    .loaded {
-                        filter: none;
-                        transition: filter ${this.props.transitionSpeed} ease-in-out;
-                    }
-                `}</style>
             </div>
         );
     }

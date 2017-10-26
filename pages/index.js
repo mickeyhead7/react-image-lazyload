@@ -12,7 +12,7 @@ export default () => (
             height={300}
             customParams= {{
                 quality: 1,
-                blur: 200,
+                // blur: 200,
             }}
             transitionSpeed="1s"
         >
@@ -49,19 +49,5 @@ export default () => (
                 }}
             />
         </Image>
-        <style global jsx>{`
-            body {
-                margin: 0;
-                min-width: 20em;
-                padding: 0;
-            }
-            picture {
-                margin: 0;
-                padding: 0;
-            }
-            img {
-                max-width: 100%;
-            }
-        `}</style>
     </div>
 );
