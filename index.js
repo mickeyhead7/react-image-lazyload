@@ -32,6 +32,7 @@ export default class extends Component {
             filter: 'blur(50px)',
             '& img': {
                 display: 'block',
+                maxWidth: '100%',
             },
         });
         const loadedStyles = css({
