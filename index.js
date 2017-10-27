@@ -1,7 +1,7 @@
-import { css } from 'glamor';
 import classNames from 'classnames';
 import Picture from './src/Picture';
 import React, { cloneElement, Component } from 'react';
+import { getContainerStyles, imgStyles, imgLoadedStyles } from './src/styles';
 
 export default class extends Component {
     state = {
@@ -22,26 +22,13 @@ export default class extends Component {
     };
 
     render () {
-        const containerStyles = css({
-            background: this.props.backgroundColor || '#cccccc',
-            display: 'inline-block',
-            overflow: 'hidden',
-        });
-        const imgStyles = css({
-            display: 'block',
-            filter: 'blur(50px)',
-            '& img': {
-                display: 'block',
-                maxWidth: '100%',
-            },
-        });
-        const loadedStyles = css({
-            filter: 'blur(0)',
-            transition: `filter ${this.props.transitionSpeed} ease-in-out`,
+        const { backgroundColor } = this.props;
+        const containerStyles = getContainerStyles({
+            backgroundColor: backgroundColor,
         });
         const classes = classNames({
             [imgStyles]: true,
-            [loadedStyles]: this.state.loaded,
+            [imgLoadedStyles]: this.state.loaded,
         });
 
         return (
@@ -49,9 +36,8 @@ export default class extends Component {
                 <Picture {...this.props} aggressiveLoad={true} className={classes}>
                     {this.state.mounted ? (
                         React.Children.map(this.props.children, child => cloneElement(child, {
-                            onMounted: this.onLoad,
-                        }))
-                    ) : null}
+                        onMounted: this.onLoad,
+                    }))) : null}
                 </Picture>
             </div>
         );

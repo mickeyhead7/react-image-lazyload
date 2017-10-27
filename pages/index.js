@@ -14,7 +14,7 @@ export default () => (
                 quality: 1,
                 // blur: 200,
             }}
-            transitionSpeed="1s"
+            backgroundColor="#217CB5"
         >
             <Source
                 src={src}
@@ -29,7 +29,7 @@ export default () => (
                 width={640}
                 height={300}
                 imgProps={{
-                    media: '(max-width: 40em)'
+                    media: '(min-width: 20.0625em) and (max-width: 40em)'
                 }}
             />
             <Source
@@ -37,7 +37,7 @@ export default () => (
                 width={960}
                 height={300}
                 imgProps={{
-                    media: '(max-width: 60em)'
+                    media: '(min-width: 40.0625em) and (max-width: 60em)'
                 }}
             />
             <Source
