@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import Picture from './src/Picture';
+import Observer from 'react-intersection-observer';
 import React, { cloneElement, Component } from 'react';
 import { getContainerStyles, imgStyles, imgLoadedStyles } from './src/styles';
 
@@ -32,13 +33,21 @@ export default class extends Component {
         });
 
         return (
-            <div className={containerStyles}>
-                <Picture {...this.props} aggressiveLoad={true} className={classes}>
-                    {this.state.mounted ? (
-                        React.Children.map(this.props.children, child => cloneElement(child, {
-                        onMounted: this.onLoad,
-                    }))) : null}
-                </Picture>
+            <div>
+                <div>Scroll down :)</div>
+                <div style={{height: '2000px;'}} />
+                <Observer>
+                    {inView => (
+                        <div className={containerStyles}>
+                            <Picture {...this.props} aggressiveLoad={true} className={classes}>
+                                {inView && this.state.mounted ? (
+                                    React.Children.map(this.props.children, child => cloneElement(child, {
+                                    onMounted: this.onLoad,
+                                }))) : null}
+                            </Picture>
+                        </div>
+                    )}
+                </Observer>
             </div>
         );
     }
