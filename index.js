@@ -35,15 +35,16 @@ export default class extends Component {
         return (
             <div>
                 <div>Scroll down :)</div>
-                <div style={{height: '2000px;'}} />
+                <div style={{height: '2000px'}} />
                 <Observer>
                     {inView => (
                         <div className={containerStyles}>
                             <Picture {...this.props} aggressiveLoad={true} className={classes}>
                                 {inView && this.state.mounted ? (
                                     React.Children.map(this.props.children, child => cloneElement(child, {
-                                    onMounted: this.onLoad,
-                                }))) : null}
+                                        onMounted: this.onLoad,
+                                    }))
+                                ) : null}
                             </Picture>
                         </div>
                     )}
