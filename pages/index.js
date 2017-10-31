@@ -6,6 +6,8 @@ const src = 'https://crowdcube-prototype.imgix.net/opportunity_images/20938/2016
 
 export default () => (
     <div>
+        <div>Scroll down :)</div>
+        <div style={{height: '2000px'}} />
         <Image
             src={src}
             width={1280}

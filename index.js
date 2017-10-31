@@ -1,54 +1,83 @@
+import propTypes from 'prop-types';
 import classNames from 'classnames';
 import Picture from './src/Picture';
-import Observer from 'react-intersection-observer';
 import React, { cloneElement, Component } from 'react';
-import { getContainerStyles, imgStyles, imgLoadedStyles } from './src/styles';
+import { getContainerStyles, pictureStyles, pictureLoadedStyles } from './src/styles';
 
+/**
+ * @description Lazy load image component
+ */
 export default class extends Component {
-    state = {
-        loaded: false,
-        mounted: false,
+    propTypes = {
+        backgroundColor: propTypes.string,
     };
 
+    state = {
+        inView: false,
+        loaded: false,
+    };
+
+    /**
+     * @description On mount
+     */
     componentDidMount () {
-        this.setState({
-            mounted: true,
-        });
+        this.handleObserver();
     }
 
-    onLoad = () => {
+    /**
+     * @description Handle the observer
+     */
+    handleObserver = () => {
+        if (this.node) {
+            const callback = (entries) => {
+                entries.forEach(entry => {
+                    this.setState({
+                        inView: entry.isIntersecting,
+                    });
+                });
+            };
+            const options = {
+                threshold: 0,
+            };
+            const observer = new IntersectionObserver(callback, options);
+
+            observer.observe(this.node);
+        }
+    };
+
+    /**
+     * @description Set the loaded status
+     */
+    setLoadedStatus = () => {
         this.setState({
             loaded: true,
         });
     };
 
+    /**
+     * @description Render the component
+     *
+     * @returns {XML}
+     */
     render () {
         const { backgroundColor } = this.props;
         const containerStyles = getContainerStyles({
             backgroundColor: backgroundColor,
         });
         const classes = classNames({
-            [imgStyles]: true,
-            [imgLoadedStyles]: this.state.loaded,
+            [pictureStyles]: true,
+            [pictureLoadedStyles]: this.state.loaded,
         });
 
         return (
-            <div>
-                <div>Scroll down :)</div>
-                <div style={{height: '2000px'}} />
-                <Observer>
-                    {inView => (
-                        <div className={containerStyles}>
-                            <Picture {...this.props} aggressiveLoad={true} className={classes}>
-                                {inView && this.state.mounted ? (
-                                    React.Children.map(this.props.children, child => cloneElement(child, {
-                                        onMounted: this.onLoad,
-                                    }))
-                                ) : null}
-                            </Picture>
-                        </div>
-                    )}
-                </Observer>
+            <div className={containerStyles} ref={node => this.node = node}>
+                <Picture {...this.props} aggressiveLoad={true} className={classes}>
+                    {this.state.inView ? (
+                        React.Children.map(this.props.children, child => cloneElement(child, {
+                            onMounted: this.setLoadedStatus,
+                        }))
+                    ) : null}
+                </Picture>
             </div>
         );
     }
