@@ -8,7 +8,7 @@ import { getContainerStyles, pictureStyles, pictureLoadedStyles } from './src/st
  * @description Lazy load image component
  */
 export default class extends Component {
-    propTypes = {
+    static propTypes = {
         backgroundColor: propTypes.string,
     };
 
@@ -29,6 +29,14 @@ export default class extends Component {
      */
     handleObserver = () => {
         if (this.node) {
+            if (!('IntersectionObserver' in window)) {
+                this.setState({
+                    inView: true,
+                });
+
+                return;
+            }
+
             const callback = (entries) => {
                 entries.forEach(entry => {
                     this.setState({

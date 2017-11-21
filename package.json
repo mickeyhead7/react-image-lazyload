@@ -1,6 +1,6 @@
 {
-  "name": "image-component",
-  "version": "1.0.0",
+  "name": "react-imgix-lazyload",
+  "version": "0.0.1",
   "description": "Responsive imgage component",
   "main": "index.js",
   "repository": "git@github.com:mickeyhead7/image-component.git",
@@ -10,6 +10,7 @@
     "classnames": "^2.2.5",
     "glamor": "^2.20.40",
     "i": "^0.3.6",
+    "jest": "^21.2.1",
     "next": "^4.1.2",
     "npm": "^5.5.1",
     "prop-types": "^15.6.0",
@@ -20,6 +21,7 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "jest"
   }
 }

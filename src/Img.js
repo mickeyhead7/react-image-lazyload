@@ -1,12 +1,15 @@
 import Imgix from 'react-imgix';
+import propTypes from 'prop-types';
 import React, { Component } from 'react';
 
 export default class Img extends Component {
-    render () {
-        const props = this.props;
+    static propTypes = {
+        src: propTypes.string,
+    };
 
+    render () {
         return (
-            <Imgix { ...props } type="img" />
+            <Imgix { ...this.props } type="img" />
         );
     }
 }
