@@ -1,3 +1,4 @@
+import Imgix from 'react-imgix';
 import classNames from 'classnames';
 import propTypes, { string } from 'prop-types';
 import React, { cloneElement, Component } from 'react';
