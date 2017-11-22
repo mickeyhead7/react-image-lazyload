@@ -87,13 +87,17 @@ This has been implemented in the
 [demo](https://github.com/mickeyhead7/react-image-lazyload/blob/master/pages/_document.js) 
 with [NextJS](https://github.com/zeit/next.js).
 
+# Build
+
+Run `yarn build` to compile src code into the `dist` folder.
+
 # Demo
 
-When developing, run `yarn dev`. Then preview this in your [browser](http://localhost:3000). 
+When developing, run `yarn demo:dev`. Then preview this in your [browser](http://localhost:3000). 
 Please note, you will not be able to fully test lazyloading in this mode, as NextJS hot-reloading 
 blocks the event used to detect the DOM loaded state.
 
-To fully test, run `yarn build && yarn start` before previewing in your [browser](http://localhost:3000); 
+To fully test, run `yarn demo` before previewing in your [browser](http://localhost:3000); 
 everything will work in this mode.
 
 # @todo

@@ -1,8 +1,8 @@
 import propTypes from 'prop-types';
 import classNames from 'classnames';
-import Picture from './src/Picture';
+import Picture from './Picture';
 import React, { cloneElement, Component } from 'react';
-import { getContainerStyles, pictureStyles, pictureLoadedStyles } from './src/styles';
+import { getContainerStyles, pictureStyles, pictureLoadedStyles } from './styles';
 
 /**
  * @description Lazy load image component
