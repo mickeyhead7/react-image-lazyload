@@ -125,7 +125,7 @@ export class Picture extends Component {
 /**
  * @description Img element
  */
-export default class Img extends Component {
+export class Img extends Component {
     /**
      * @description prop-types
      */
@@ -148,7 +148,7 @@ export default class Img extends Component {
 /**
  * @description Source element
  */
-export default class Source extends Component {
+export class Source extends Component {
     /**
      * @description prop-types
      */
