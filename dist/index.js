@@ -9,6 +9,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _reactImgix = require('react-imgix');
+
+var _reactImgix2 = _interopRequireDefault(_reactImgix);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -185,7 +189,7 @@ var Picture = exports.Picture = function (_Component2) {
          */
         value: function render() {
             return _react2.default.createElement(
-                Imgix,
+                _reactImgix2.default,
                 _extends({}, this.props, { type: 'picture' }),
                 this.props.children
             );
@@ -227,7 +231,7 @@ var Img = exports.Img = function (_Component3) {
          * @returns {XML}
          */
         value: function render() {
-            return _react2.default.createElement(Imgix, _extends({}, this.props, { type: 'img' }));
+            return _react2.default.createElement(_reactImgix2.default, _extends({}, this.props, { type: 'img' }));
         }
         /**
          * @description prop-types
@@ -266,7 +270,7 @@ var Source = exports.Source = function (_Component4) {
          * @returns {XML}
          */
         value: function render() {
-            return _react2.default.createElement(Imgix, _extends({}, this.props, { type: 'source' }));
+            return _react2.default.createElement(_reactImgix2.default, _extends({}, this.props, { type: 'source' }));
         }
         /**
          * @description prop-types
