@@ -1,5 +1,5 @@
-import propTypes, { string } from 'prop-types';
 import classNames from 'classnames';
+import propTypes, { string } from 'prop-types';
 import React, { cloneElement, Component } from 'react';
 import { getContainerStyles, pictureStyles, pictureLoadedStyles } from './styles';
 
@@ -12,7 +12,7 @@ export default class extends Component {
      */
     static propTypes = {
         backgroundColor: propTypes.string,
-        src: string.propTypes.isRequired,
+        src: propTypes.string.isRequired,
     };
 
     /**
