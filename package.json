@@ -1,9 +1,9 @@
 {
   "name": "react-imgix-lazyload",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Responsive imgage component",
   "main": "index.js",
-  "repository": "git@github.com:mickeyhead7/image-component.git",
+  "repository": "git@github.com:mickeyhead7/react-imgix-lazyload.git",
   "author": "<mickeyhead7@gmail.com>",
   "license": "GNU General Public License",
   "dependencies": {

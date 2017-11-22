@@ -14,7 +14,7 @@ export default () => (
             height={300}
             customParams= {{
                 quality: 1,
-                // blur: 200,
+                blur: 200,
             }}
             backgroundColor="#217CB5"
         >
