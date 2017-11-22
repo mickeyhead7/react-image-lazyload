@@ -1,8 +1,8 @@
 {
   "name": "react-image-lazyload",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Responsive imgage component",
-  "main": "index.js",
+  "main": "dist/index.js",
   "repository": "git@github.com:mickeyhead7/react-image-lazyload.git",
   "author": "<mickeyhead7@gmail.com>",
   "license": "GNU General Public License",
@@ -23,5 +23,12 @@
     "build": "next build",
     "start": "next start",
     "test": "jest"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1"
   }
 }
