@@ -1,6 +1,5 @@
-import propTypes from 'prop-types';
+import propTypes, { string } from 'prop-types';
 import classNames from 'classnames';
-import Picture from './Picture';
 import React, { cloneElement, Component } from 'react';
 import { getContainerStyles, pictureStyles, pictureLoadedStyles } from './styles';
 
@@ -8,10 +7,17 @@ import { getContainerStyles, pictureStyles, pictureLoadedStyles } from './styles
  * @description Lazy load image component
  */
 export default class extends Component {
+    /**
+     * @description prop-types
+     */
     static propTypes = {
         backgroundColor: propTypes.string,
+        src: string.propTypes.isRequired,
     };
 
+    /**
+     * @description Initial component state
+     */
     state = {
         inView: false,
         loaded: false,
@@ -87,6 +93,77 @@ export default class extends Component {
                     ) : null}
                 </Picture>
             </div>
+        );
+    }
+}
+
+/**
+ * @description Picture element
+ */
+export class Picture extends Component {
+    /**
+     * @description prop-types
+     */
+    static propTypes = {
+        src: propTypes.string,
+    };
+
+    /**
+     * @description Render the component
+     *
+     * @returns {XML}
+     */
+    render () {
+        return (
+            <Imgix { ...this.props } type="picture">
+                {this.props.children}
+            </Imgix>
+        );
+    }
+}
+
+/**
+ * @description Img element
+ */
+export default class Img extends Component {
+    /**
+     * @description prop-types
+     */
+    static propTypes = {
+        src: propTypes.string,
+    };
+
+    /**
+     * @description Render the component
+     *
+     * @returns {XML}
+     */
+    render () {
+        return (
+            <Imgix { ...this.props } type="img" />
+        );
+    }
+}
+
+/**
+ * @description Source element
+ */
+export default class Source extends Component {
+    /**
+     * @description prop-types
+     */
+    static propTypes = {
+        src: propTypes.string,
+    };
+
+    /**
+     * @description Render the component
+     *
+     * @returns {XML}
+     */
+    render () {
+        return (
+            <Imgix { ...this.props } type="source" />
         );
     }
 }

@@ -8,7 +8,7 @@ Isomorphic image component, utilising lazy load and responsive transitions
 Typically within your React component's `render` method:
 
 ```javascript
-import Image from 'react-image-lazyload';
+import Image, { Source } from 'react-image-lazyload';
 
 const src1 = 'https://www.yourdomain.com/your-image-1.jpg';
 const src2 = 'https://www.yourdomain.com/your-image-2.jpg';
