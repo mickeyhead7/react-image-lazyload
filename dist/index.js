@@ -107,8 +107,8 @@ var _class = function (_Component) {
         value: function componentDidMount() {
             this.handleObserver();
 
-            // Auto load if there no children
-            if (!this.props.children.length) {
+            // Auto load if there are no children
+            if (!this.props.children) {
                 this.setLoadedStatus();
             }
         }
