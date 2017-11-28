@@ -1,3 +1,4 @@
+import React from 'react';
 import { css } from 'glamor'
 import { renderStatic } from 'glamor/server';
 import Document, { Head, Main, NextScript } from 'next/document';

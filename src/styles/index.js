@@ -8,7 +8,9 @@ import { css } from 'glamor';
 export const getContainerStyles = props => css({
     backgroundColor: props.backgroundColor || '#cccccc',
     display: 'inline-block',
+    height: props.height || 'auto',
     overflow: 'hidden',
+    width: props.width || 'auto',
 });
 
 /**

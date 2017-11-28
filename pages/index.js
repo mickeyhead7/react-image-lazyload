@@ -1,6 +1,5 @@
 import React from 'react';
-import Source from '../src/Source';
-import Image from '../index';
+import Image, { Source } from '../src/index';
 
 const src = 'https://crowdcube-prototype.imgix.net/opportunity_images/20938/201602/cover_image_001f58fedff5baf1f0f8a800719a461d.jpg';
 

@@ -13,7 +13,9 @@ export default class extends Component {
      */
     static propTypes = {
         backgroundColor: propTypes.string,
+        height: propTypes.number,
         src: propTypes.string.isRequired,
+        width: propTypes.number,
     };
 
     /**
@@ -29,6 +31,11 @@ export default class extends Component {
      */
     componentDidMount () {
         this.handleObserver();
+
+        // Auto load if there are no children
+        if (!this.props.children.length) {
+            this.setLoadedStatus();
+        }
     }
 
     /**
@@ -75,9 +82,11 @@ export default class extends Component {
      * @returns {XML}
      */
     render () {
-        const { backgroundColor } = this.props;
+        const { backgroundColor, height, width } = this.props;
         const containerStyles = getContainerStyles({
-            backgroundColor: backgroundColor,
+            backgroundColor,
+            height,
+            width,
         });
         const classes = classNames({
             [pictureStyles]: true,
@@ -86,7 +95,11 @@ export default class extends Component {
 
         return (
             <div className={containerStyles} ref={node => this.node = node}>
-                <Picture {...this.props} aggressiveLoad={true} className={classes}>
+                <Picture 
+                    {...this.props} 
+                    aggressiveLoad={true} 
+                    className={classes}
+                >
                     {this.state.inView ? (
                         React.Children.map(this.props.children, child => cloneElement(child, {
                             onMounted: this.setLoadedStatus,

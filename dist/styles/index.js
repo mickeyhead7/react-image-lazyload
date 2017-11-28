@@ -16,7 +16,9 @@ var getContainerStyles = exports.getContainerStyles = function getContainerStyle
     return (0, _glamor.css)({
         backgroundColor: props.backgroundColor || '#cccccc',
         display: 'inline-block',
-        overflow: 'hidden'
+        height: props.height || 'auto',
+        overflow: 'hidden',
+        width: props.width || 'auto'
     });
 };
 

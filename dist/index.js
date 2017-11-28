@@ -106,6 +106,11 @@ var _class = function (_Component) {
          */
         value: function componentDidMount() {
             this.handleObserver();
+
+            // Auto load if there no children
+            if (!this.props.children.length) {
+                this.setLoadedStatus();
+            }
         }
 
         /**
@@ -130,10 +135,15 @@ var _class = function (_Component) {
             var _classNames,
                 _this2 = this;
 
-            var backgroundColor = this.props.backgroundColor;
+            var _props = this.props,
+                backgroundColor = _props.backgroundColor,
+                height = _props.height,
+                width = _props.width;
 
             var containerStyles = (0, _styles.getContainerStyles)({
-                backgroundColor: backgroundColor
+                backgroundColor: backgroundColor,
+                height: height,
+                width: width
             });
             var classes = (0, _classnames2.default)((_classNames = {}, _defineProperty(_classNames, _styles.pictureStyles, true), _defineProperty(_classNames, _styles.pictureLoadedStyles, this.state.loaded), _classNames));
 
@@ -144,7 +154,10 @@ var _class = function (_Component) {
                     } },
                 _react2.default.createElement(
                     Picture,
-                    _extends({}, this.props, { aggressiveLoad: true, className: classes }),
+                    _extends({}, this.props, {
+                        aggressiveLoad: true,
+                        className: classes
+                    }),
                     this.state.inView ? _react2.default.Children.map(this.props.children, function (child) {
                         return (0, _react.cloneElement)(child, {
                             onMounted: _this2.setLoadedStatus
@@ -165,7 +178,9 @@ var _class = function (_Component) {
 
 _class.propTypes = {
     backgroundColor: _propTypes2.default.string,
-    src: _propTypes2.default.string.isRequired
+    height: _propTypes2.default.number,
+    src: _propTypes2.default.string.isRequired,
+    width: _propTypes2.default.number
 };
 exports.default = _class;
 
