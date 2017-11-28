@@ -33,7 +33,7 @@ export default class extends Component {
         this.handleObserver();
 
         // Auto load if there are no children
-        if (!this.props.children.length) {
+        if (!this.props.children) {
             this.setLoadedStatus();
         }
     }
