@@ -38,6 +38,11 @@ export default class extends Component {
         }
     }
 
+    componentWillUnmount () {
+        this.observer.unobserve(this.node);
+        this.node = null;
+    }
+
     /**
      * @description Handle the observer
      */
@@ -61,9 +66,9 @@ export default class extends Component {
             const options = {
                 threshold: 0,
             };
-            const observer = new IntersectionObserver(callback, options);
-
-            observer.observe(this.node);
+            
+            this.observer = new IntersectionObserver(callback, options);
+            this.observer.observe(this.node);
         }
     };
 

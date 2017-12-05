@@ -77,9 +77,9 @@ var _class = function (_Component) {
                 var options = {
                     threshold: 0
                 };
-                var observer = new IntersectionObserver(callback, options);
 
-                observer.observe(_this.node);
+                _this.observer = new IntersectionObserver(callback, options);
+                _this.observer.observe(_this.node);
             }
         }, _this.setLoadedStatus = function () {
             _this.setState({
@@ -111,6 +111,12 @@ var _class = function (_Component) {
             if (!this.props.children) {
                 this.setLoadedStatus();
             }
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            this.observer.unobserve(this.node);
+            this.node = null;
         }
 
         /**
