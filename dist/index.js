@@ -112,6 +112,11 @@ var _class = function (_Component) {
                 this.setLoadedStatus();
             }
         }
+
+        /**
+         * @description On unmount
+         */
+
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {

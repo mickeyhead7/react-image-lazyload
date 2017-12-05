@@ -38,6 +38,9 @@ export default class extends Component {
         }
     }
 
+    /**
+     * @description On unmount
+     */
     componentWillUnmount () {
         this.observer.unobserve(this.node);
         this.node = null;
