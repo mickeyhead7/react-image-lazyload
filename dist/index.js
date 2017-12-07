@@ -13,6 +13,10 @@ var _reactImgix = require('react-imgix');
 
 var _reactImgix2 = _interopRequireDefault(_reactImgix);
 
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -55,36 +59,54 @@ var _class = function (_Component) {
         }
 
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = _class.__proto__ || Object.getPrototypeOf(_class)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-            inView: false,
-            loaded: false
-        }, _this.handleObserver = function () {
-            if (_this.node) {
-                if (!('IntersectionObserver' in window)) {
-                    _this.setState({
-                        inView: true
-                    });
+            hasViewed: false,
+            isLoaded: false
+        }, _this.initObserver = function () {
+            _this.node = _reactDom2.default.findDOMNode(_this);
 
-                    return;
-                }
-
-                var callback = function callback(entries) {
-                    entries.forEach(function (entry) {
-                        _this.setState({
-                            inView: entry.isIntersecting
-                        });
-                    });
-                };
-                var options = {
-                    threshold: 0
-                };
-
-                _this.observer = new IntersectionObserver(callback, options);
-                _this.observer.observe(_this.node);
+            if (!_this.node) {
+                return;
             }
+
+            if (!('IntersectionObserver' in window)) {
+                _this.setState({
+                    hasViewed: true
+                });
+
+                return;
+            }
+
+            var callback = function callback(entries) {
+                entries.forEach(function (entry) {
+                    var hasViewed = _this.state.hasViewed || entry.isIntersecting;
+
+                    _this.setState({
+                        hasViewed: hasViewed
+                    });
+                });
+            };
+            var options = {
+                threshold: 0
+            };
+
+            _this.observer = new IntersectionObserver(callback, options);
+            _this.observer.observe(_this.node);
         }, _this.setLoadedStatus = function () {
-            _this.setState({
-                loaded: true
-            });
+            if (!_this.node) {
+                return;
+            }
+
+            var img = _this.node.querySelector('img');
+
+            if (!img) {
+                return;
+            }
+
+            img.onload = function () {
+                _this.setState({
+                    isLoaded: true
+                });
+            };
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
     /**
@@ -105,12 +127,7 @@ var _class = function (_Component) {
          * @description On mount
          */
         value: function componentDidMount() {
-            this.handleObserver();
-
-            // Auto load if there are no children
-            if (!this.props.children) {
-                this.setLoadedStatus();
-            }
+            this.initObserver();
         }
 
         /**
@@ -121,16 +138,15 @@ var _class = function (_Component) {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
             this.observer.unobserve(this.node);
-            this.node = null;
         }
 
         /**
-         * @description Handle the observer
+         * @description Initialize the observer
          */
 
 
         /**
-         * @description Set the loaded status
+         * @description Set the loaded status when the image is loaded
          */
 
     }, {
@@ -156,25 +172,26 @@ var _class = function (_Component) {
                 height: height,
                 width: width
             });
-            var classes = (0, _classnames2.default)((_classNames = {}, _defineProperty(_classNames, _styles.pictureStyles, true), _defineProperty(_classNames, _styles.pictureLoadedStyles, this.state.loaded), _classNames));
+            var classes = (0, _classnames2.default)((_classNames = {}, _defineProperty(_classNames, _styles.pictureStyles, true), _defineProperty(_classNames, _styles.pictureLoadedStyles, this.state.isLoaded), _classNames));
+
+            // Mount the picture element if no child components are set
+            var onMountPicture = !this.props.children ? this.setLoadedStatus.bind(this) : function () {};
 
             return _react2.default.createElement(
                 'div',
-                { className: containerStyles, ref: function ref(node) {
-                        return _this2.node = node;
-                    } },
-                _react2.default.createElement(
+                { className: containerStyles },
+                this.state.hasViewed ? _react2.default.createElement(
                     Picture,
                     _extends({}, this.props, {
-                        aggressiveLoad: true,
-                        className: classes
+                        className: classes,
+                        onMounted: onMountPicture
                     }),
-                    this.state.inView ? _react2.default.Children.map(this.props.children, function (child) {
+                    _react2.default.Children.map(this.props.children, function (child) {
                         return (0, _react.cloneElement)(child, {
-                            onMounted: _this2.setLoadedStatus
+                            onMounted: _this2.setLoadedStatus.bind(_this2)
                         });
-                    }) : null
-                )
+                    })
+                ) : null
             );
         }
     }]);

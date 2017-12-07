@@ -1,4 +1,5 @@
 import Imgix from 'react-imgix';
+import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import propTypes, { string } from 'prop-types';
 import React, { cloneElement, Component } from 'react';
@@ -22,20 +23,15 @@ export default class extends Component {
      * @description Initial component state
      */
     state = {
-        inView: false,
-        loaded: false,
+        hasViewed: false,
+        isLoaded: false,
     };
 
     /**
      * @description On mount
      */
     componentDidMount () {
-        this.handleObserver();
-
-        // Auto load if there are no children
-        if (!this.props.children) {
-            this.setLoadedStatus();
-        }
+        this.initObserver();
     }
 
     /**
@@ -43,45 +39,62 @@ export default class extends Component {
      */
     componentWillUnmount () {
         this.observer.unobserve(this.node);
-        this.node = null;
     }
 
     /**
-     * @description Handle the observer
+     * @description Initialize the observer
      */
-    handleObserver = () => {
-        if (this.node) {
-            if (!('IntersectionObserver' in window)) {
-                this.setState({
-                    inView: true,
-                });
-
-                return;
-            }
-
-            const callback = (entries) => {
-                entries.forEach(entry => {
-                    this.setState({
-                        inView: entry.isIntersecting,
-                    });
-                });
-            };
-            const options = {
-                threshold: 0,
-            };
-            
-            this.observer = new IntersectionObserver(callback, options);
-            this.observer.observe(this.node);
+    initObserver = () => {
+        this.node = ReactDOM.findDOMNode(this);
+        
+        if (!this.node) {
+            return;
         }
+
+        if (!('IntersectionObserver' in window)) {
+            this.setState({
+                hasViewed: true,
+            });
+
+            return;
+        }
+
+        const callback = (entries) => {
+            entries.forEach(entry => {
+                const hasViewed = this.state.hasViewed || entry.isIntersecting;
+
+                this.setState({
+                    hasViewed,
+                });
+            });
+        };
+        const options = {
+            threshold: 0,
+        };
+        
+        this.observer = new IntersectionObserver(callback, options);
+        this.observer.observe(this.node);
     };
 
     /**
-     * @description Set the loaded status
+     * @description Set the loaded status when the image is loaded
      */
     setLoadedStatus = () => {
-        this.setState({
-            loaded: true,
-        });
+        if (!this.node) {
+            return;
+        }
+
+        const img = this.node.querySelector('img');
+
+        if (!img) {
+            return;
+        }
+
+        img.onload = () => {
+            this.setState({
+                isLoaded: true,
+            });
+        }
     };
 
     /**
@@ -98,22 +111,27 @@ export default class extends Component {
         });
         const classes = classNames({
             [pictureStyles]: true,
-            [pictureLoadedStyles]: this.state.loaded,
+            [pictureLoadedStyles]: this.state.isLoaded,
         });
 
+        // Mount the picture element if no child components are set
+        const onMountPicture = !this.props.children 
+            ? this.setLoadedStatus.bind(this) 
+            : () => {};
+
         return (
-            <div className={containerStyles} ref={node => this.node = node}>
-                <Picture 
-                    {...this.props} 
-                    aggressiveLoad={true} 
-                    className={classes}
-                >
-                    {this.state.inView ? (
-                        React.Children.map(this.props.children, child => cloneElement(child, {
-                            onMounted: this.setLoadedStatus,
-                        }))
-                    ) : null}
-                </Picture>
+            <div className={containerStyles}>
+                {this.state.hasViewed ? (
+                    <Picture 
+                        {...this.props} 
+                        className={classes}
+                        onMounted={onMountPicture}
+                    >
+                        {React.Children.map(this.props.children, child => cloneElement(child, {
+                            onMounted: this.setLoadedStatus.bind(this),
+                        }))}
+                    </Picture>
+                ) : null}
             </div>
         );
     }

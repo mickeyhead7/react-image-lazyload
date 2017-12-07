@@ -102,8 +102,8 @@ everything will work in this mode.
 
 # @todo
 
-* Enforce prop-types
 * Add unit tests
+* Remove dependency on Imgix
 * Provide CSS styles fallback for those not using server-side rendering with Glamor
 
 # Credits
