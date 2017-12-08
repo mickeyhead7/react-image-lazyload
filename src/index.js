@@ -35,10 +35,16 @@ export default class extends Component {
     }
 
     /**
-     * @description On unmount
+     * @description Cleanup on unmount
      */
     componentWillUnmount () {
+        if (this.img) {
+            this.img.removeEventListener('load', this.setLoadedStatus);
+        }
+
         this.observer.unobserve(this.node);
+        this.observer = null;
+        this.node = null;
     }
 
     /**
@@ -77,24 +83,29 @@ export default class extends Component {
     };
 
     /**
-     * @description Set the loaded status when the image is loaded
+     * @description Adds a listener to the component image
      */
-    setLoadedStatus = () => {
+    addImageListener = () => {
         if (!this.node) {
             return;
         }
 
-        const img = this.node.querySelector('img');
+        this.img = this.node.querySelector('img');
 
-        if (!img) {
+        if (!this.img) {
             return;
         }
 
-        img.onload = () => {
-            this.setState({
-                isLoaded: true,
-            });
-        }
+        this.img.addEventListener('load', this.setLoadedStatus);
+    };
+
+    /**
+     * @description Set the loaded status of the component img
+     */
+    setLoadedStatus = () => {
+        this.setState({
+            isLoaded: true,
+        });
     };
 
     /**
@@ -115,8 +126,8 @@ export default class extends Component {
         });
 
         // Mount the picture element if no child components are set
-        const onMountPicture = !this.props.children 
-            ? this.setLoadedStatus.bind(this) 
+        const onMountPicture = typeof this.props.children !== 'undefined' || !this.props.children
+            ? this.addImageListener 
             : () => {};
 
         return (
@@ -128,7 +139,7 @@ export default class extends Component {
                         onMounted={onMountPicture}
                     >
                         {React.Children.map(this.props.children, child => cloneElement(child, {
-                            onMounted: this.setLoadedStatus.bind(this),
+                            onMounted: this.addImageListener,
                         }))}
                     </Picture>
                 ) : null}

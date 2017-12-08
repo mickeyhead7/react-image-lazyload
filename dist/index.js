@@ -91,22 +91,22 @@ var _class = function (_Component) {
 
             _this.observer = new IntersectionObserver(callback, options);
             _this.observer.observe(_this.node);
-        }, _this.setLoadedStatus = function () {
+        }, _this.addImageListener = function () {
             if (!_this.node) {
                 return;
             }
 
-            var img = _this.node.querySelector('img');
+            _this.img = _this.node.querySelector('img');
 
-            if (!img) {
+            if (!_this.img) {
                 return;
             }
 
-            img.onload = function () {
-                _this.setState({
-                    isLoaded: true
-                });
-            };
+            _this.img.addEventListener('load', _this.setLoadedStatus);
+        }, _this.setLoadedStatus = function () {
+            _this.setState({
+                isLoaded: true
+            });
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
     /**
@@ -131,13 +131,19 @@ var _class = function (_Component) {
         }
 
         /**
-         * @description On unmount
+         * @description Cleanup on unmount
          */
 
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
+            if (this.img) {
+                this.img.removeEventListener('load', this.setLoadedStatus);
+            }
+
             this.observer.unobserve(this.node);
+            this.observer = null;
+            this.node = null;
         }
 
         /**
@@ -175,7 +181,7 @@ var _class = function (_Component) {
             var classes = (0, _classnames2.default)((_classNames = {}, _defineProperty(_classNames, _styles.pictureStyles, true), _defineProperty(_classNames, _styles.pictureLoadedStyles, this.state.isLoaded), _classNames));
 
             // Mount the picture element if no child components are set
-            var onMountPicture = !this.props.children ? this.setLoadedStatus.bind(this) : function () {};
+            var onMountPicture = typeof this.props.children !== 'undefined' || !this.props.children ? this.addImageListener : function () {};
 
             return _react2.default.createElement(
                 'div',
@@ -188,7 +194,7 @@ var _class = function (_Component) {
                     }),
                     _react2.default.Children.map(this.props.children, function (child) {
                         return (0, _react.cloneElement)(child, {
-                            onMounted: _this2.setLoadedStatus.bind(_this2)
+                            onMounted: _this2.addImageListener
                         });
                     })
                 ) : null

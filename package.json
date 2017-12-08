@@ -1,6 +1,6 @@
 {
   "name": "react-image-lazyload",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "Responsive imgage component",
   "main": "dist/index.js",
   "repository": "git@github.com:mickeyhead7/react-image-lazyload.git",
