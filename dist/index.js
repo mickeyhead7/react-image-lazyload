@@ -3,15 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.Source = exports.Img = exports.Picture = undefined;
+exports.Source = exports.Picture = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _reactImgix = require('react-imgix');
-
-var _reactImgix2 = _interopRequireDefault(_reactImgix);
 
 var _reactDom = require('react-dom');
 
@@ -152,7 +148,12 @@ var _class = function (_Component) {
 
 
         /**
-         * @description Set the loaded status when the image is loaded
+         * @description Adds a listener to the component image
+         */
+
+
+        /**
+         * @description Set the loaded status of the component img
          */
 
     }, {
@@ -196,7 +197,10 @@ var _class = function (_Component) {
                         return (0, _react.cloneElement)(child, {
                             onMounted: _this2.addImageListener
                         });
-                    })
+                    }),
+                    _react2.default.createElement(Img, _extends({}, this.props, {
+                        src: this.props.src
+                    }))
                 ) : null
             );
         }
@@ -228,28 +232,80 @@ var Picture = exports.Picture = function (_Component2) {
     }
 
     _createClass(Picture, [{
-        key: 'render',
-
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            if (this.props.onMounted) {
+                this.props.onMounted();
+            }
+        }
 
         /**
          * @description Render the component
          *
          * @returns {XML}
          */
+
+    }, {
+        key: 'render',
         value: function render() {
             return _react2.default.createElement(
-                _reactImgix2.default,
-                _extends({}, this.props, { type: 'picture' }),
+                'picture',
+                { className: this.props.className },
                 this.props.children
             );
         }
+    }]);
+
+    return Picture;
+}(_react.Component);
+
+/**
+ * @description Source element
+ */
+
+
+Picture.propTypes = {
+    onMounted: _propTypes2.default.func
+};
+
+var Source = exports.Source = function (_Component3) {
+    _inherits(Source, _Component3);
+
+    function Source() {
+        _classCallCheck(this, Source);
+
+        return _possibleConstructorReturn(this, (Source.__proto__ || Object.getPrototypeOf(Source)).apply(this, arguments));
+    }
+
+    _createClass(Source, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            if (this.props.onMounted) {
+                this.props.onMounted();
+            }
+        }
+
+        /**
+         * @description Render the component
+         *
+         * @returns {XML}
+         */
+
         /**
          * @description prop-types
          */
 
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement('source', {
+                media: this.props.media,
+                srcSet: this.props.srcSet
+            });
+        }
     }]);
 
-    return Picture;
+    return Source;
 }(_react.Component);
 
 /**
@@ -257,12 +313,14 @@ var Picture = exports.Picture = function (_Component2) {
  */
 
 
-Picture.propTypes = {
-    src: _propTypes2.default.string
+Source.propTypes = {
+    media: _propTypes2.default.string.isRequired,
+    onMounted: _propTypes2.default.func,
+    srcSet: _propTypes2.default.string.isRequired
 };
 
-var Img = exports.Img = function (_Component3) {
-    _inherits(Img, _Component3);
+var Img = function (_Component4) {
+    _inherits(Img, _Component4);
 
     function Img() {
         _classCallCheck(this, Img);
@@ -280,7 +338,11 @@ var Img = exports.Img = function (_Component3) {
          * @returns {XML}
          */
         value: function render() {
-            return _react2.default.createElement(_reactImgix2.default, _extends({}, this.props, { type: 'img' }));
+            return _react2.default.createElement('img', {
+                alt: this.props.alt,
+                src: this.props.src,
+                title: this.props.title
+            });
         }
         /**
          * @description prop-types
@@ -291,45 +353,8 @@ var Img = exports.Img = function (_Component3) {
     return Img;
 }(_react.Component);
 
-/**
- * @description Source element
- */
-
-
 Img.propTypes = {
-    src: _propTypes2.default.string
-};
-
-var Source = exports.Source = function (_Component4) {
-    _inherits(Source, _Component4);
-
-    function Source() {
-        _classCallCheck(this, Source);
-
-        return _possibleConstructorReturn(this, (Source.__proto__ || Object.getPrototypeOf(Source)).apply(this, arguments));
-    }
-
-    _createClass(Source, [{
-        key: 'render',
-
-
-        /**
-         * @description Render the component
-         *
-         * @returns {XML}
-         */
-        value: function render() {
-            return _react2.default.createElement(_reactImgix2.default, _extends({}, this.props, { type: 'source' }));
-        }
-        /**
-         * @description prop-types
-         */
-
-    }]);
-
-    return Source;
-}(_react.Component);
-
-Source.propTypes = {
-    src: _propTypes2.default.string
+    alt: _propTypes2.default.string,
+    src: _propTypes2.default.string.isRequired,
+    title: _propTypes2.default.string
 };

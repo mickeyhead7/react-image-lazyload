@@ -1,4 +1,3 @@
-import Imgix from 'react-imgix';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import propTypes, { string } from 'prop-types';
@@ -141,6 +140,11 @@ export default class extends Component {
                         {React.Children.map(this.props.children, child => cloneElement(child, {
                             onMounted: this.addImageListener,
                         }))}
+
+                        <Img 
+                            {...this.props} 
+                            src={this.props.src} 
+                        />
                     </Picture>
                 ) : null}
             </div>
@@ -152,37 +156,15 @@ export default class extends Component {
  * @description Picture element
  */
 export class Picture extends Component {
-    /**
-     * @description prop-types
-     */
     static propTypes = {
-        src: propTypes.string,
+        onMounted: propTypes.func,
     };
 
-    /**
-     * @description Render the component
-     *
-     * @returns {XML}
-     */
-    render () {
-        return (
-            <Imgix { ...this.props } type="picture">
-                {this.props.children}
-            </Imgix>
-        );
+    componentDidMount () {
+        if (this.props.onMounted) {
+            this.props.onMounted();
+        }
     }
-}
-
-/**
- * @description Img element
- */
-export class Img extends Component {
-    /**
-     * @description prop-types
-     */
-    static propTypes = {
-        src: propTypes.string,
-    };
 
     /**
      * @description Render the component
@@ -191,7 +173,9 @@ export class Img extends Component {
      */
     render () {
         return (
-            <Imgix { ...this.props } type="img" />
+            <picture className={this.props.className}>
+                {this.props.children}
+            </picture>
         );
     }
 }
@@ -204,7 +188,43 @@ export class Source extends Component {
      * @description prop-types
      */
     static propTypes = {
-        src: propTypes.string,
+        media: propTypes.string.isRequired,
+        onMounted: propTypes.func,
+        srcSet: propTypes.string.isRequired,
+    };
+
+    componentDidMount () {
+        if (this.props.onMounted) {
+            this.props.onMounted();
+        }
+    }
+
+    /**
+     * @description Render the component
+     *
+     * @returns {XML}
+     */
+    render () {
+        return (
+            <source
+                media={this.props.media}
+                srcSet={this.props.srcSet}
+            />
+        );
+    }
+}
+
+/**
+ * @description Img element
+ */
+class Img extends Component {
+    /**
+     * @description prop-types
+     */
+    static propTypes = {
+        alt: propTypes.string,
+        src: propTypes.string.isRequired,
+        title: propTypes.string,
     };
 
     /**
@@ -214,7 +234,11 @@ export class Source extends Component {
      */
     render () {
         return (
-            <Imgix { ...this.props } type="source" />
+            <img 
+                alt={this.props.alt} 
+                src={this.props.src} 
+                title={this.props.title}
+            />
         );
     }
 }
