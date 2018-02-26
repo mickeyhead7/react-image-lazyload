@@ -1,4 +1,6 @@
 # image-component
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/mickeyhead7/react-image-lazyload.svg)](https://greenkeeper.io/)
 Isomorphic image component, utilising lazy load and responsive transitions
 
 # Usage
